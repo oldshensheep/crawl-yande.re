@@ -1,55 +1,73 @@
-## About The Project
+# About The Project
 
-爬取`yande.re`网站上的所有图片（原始画质）  
+爬取`yande.re`网站上的所有图片  
 下载给定页数区间的图片，已经下载的会自动跳过
+
+## 环境要求
+
+python >=3.8 (用了:=)
+python lib: requests
 
 ## Getting start
 
-1. 下载项目
+### 下载项目
 
-    ```sh
-    git clone https://github.com/oldshensheep/YandeReSpider.git
-    ```
+```sh
+git clone https://github.com/oldshensheep/YandeReSpider.git
+```
 
-    或者下载 zip 解压
+或者下载 zip 解压
 
-2. 运行前配置
-   安装依赖 requests，这个应该都安装了
+### 运行前配置
 
-    ```sh
-    pip3 install requests
-    ```
+安装依赖 requests，这个应该都安装了
 
-    打开 `config.ini` 按照文件里的提示配置, 国内要配置代理，支持 http 代理，不填用系统代理设置
-    这里列出了文件内容
+```sh
+pip3 install requests
+```
 
-    ```ini
-    # 下载起始页 默认 1
-    start_page=1
+打开 `config.ini` 按照文件里的提示配置, 国内要配置代理，支持 http 代理，不填用系统代理设置
+这里列出了文件内容
 
-    # 下载结束页 默认 100
-    end_page=100
+```ini
+;自定义配置
 
-    # 同时下载的线程数 默认10个线程
-    max_workers = 10
+; 下载起始页 默认 1
+start_page = 1
 
-    # 图片保存路径 默认为 yande.re, 不存在自动创建
-    filepath = yande.re
+; 下载结束页 默认 100
+end_page = 100
 
-    # http代理 默认没有代理/系统代理
-    proxy = http://localhost:7890
+; 同时下载的线程数 默认10个线程
+max_workers = 10
 
-    # 连接错误重试次数 默认 2
-    max_retries = 2
+; 图片保存路径 默认为 yande.re, 不存在自动创建
+filepath = /mnt/d/Codespaces/Code/.io/yande.re
 
-    # 连接超时 默认 4
-    timeout = 5
-    ```
+; http代理 默认没有代理/系统代理
+proxy = http://localhost:7890
 
-3. 运行
-    ```sh
-    python3 run.py
-    ```
+; 连接错误重试次数 默认 2
+max_retries = 2
+
+; 连接超时 默认 4
+timeout = 5
+
+; 画质 'original jpeg sample 画质由好到差
+quality = original
+```
+
+### 运行
+
+```sh
+python3 run.py
+```
+
+## 提示
+
+- 下载的文件会根据画质选项分类
+- 如果全部下载建议选择 `sample` 画质（空间多当我没说），`original` 画质平均文件大小在 3.5MB  
+  ~~测试~~ **的时候不知不觉下载了 4000 多张差不多占了 17GB 的空间……**
 
 ## TODO
 

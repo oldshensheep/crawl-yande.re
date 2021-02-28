@@ -14,8 +14,9 @@ class YandeRe():
     # 包含之前下载的
     _actual_download = 0
 
-    def __init__(self, end_page, proxies={'http': '', 'https': ''}, limit=100, start_page=1, max_workers=10, max_retries=2, timeout=4, filepath='yande.re'):
+    def __init__(self, end_page, proxies={'http': '', 'https': ''}, quality='original', limit=100, start_page=1, max_workers=10, max_retries=2, timeout=4, filepath='yande.re'):
         self.proxies = proxies
+        self.quality = quality
         self.end_page = end_page
         self.limit = limit
         self.start_page = start_page
@@ -27,7 +28,10 @@ class YandeRe():
             max_workers=self.max_workers)
         self.download_files = self.last_download_files()
         if not os.path.exists(filepath):
-            os.path.os.mkdir(filepath)
+            os.mkdir(filepath)
+        if not os.path.exists(subdir := os.path.join(filepath, quality)):
+            os.mkdir(subdir)
+        self.filepath = subdir
         self.session = self.create_session()
 
     def create_session(self):
@@ -62,7 +66,7 @@ class YandeRe():
             'jpeg': [(i['jpeg_url'], i['id']) for i in post],
             'sample': [(i['sample_url'], i['id']) for i in post]
         }
-        img_urls = file_map['original']
+        img_urls = file_map[self.quality]
         return img_urls
 
     def last_download_files(self):
@@ -108,10 +112,11 @@ def main():
         }
         max_retries = int(config['max_retries'])
         timeout = float(config['timeout'])
+        quality = config['quality']
     except Exception as e:
-        pass
+        print(e)
     yandere = YandeRe(start_page=start_page, end_page=end_page, filepath=filepath, proxies=proxies,
-                      max_workers=max_workers,  max_retries=max_retries, timeout=timeout)
+                      max_workers=max_workers,  max_retries=max_retries, timeout=timeout, quality=quality)
     yandere.run()
 
 
