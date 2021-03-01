@@ -86,7 +86,8 @@ python3 run.py
 4. 支持云函数代理 https://xxxxx.workers.dev/https://yande.re/post.json 用云函数代理，这样就可以省点流量了……(
 5. 存储log，更友好的爬取详细输出
 6. 完善注释？
-7. add more todo
+7. 并行化请求图片url的过程
+8. add more todo
 
 ## License
 
