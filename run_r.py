@@ -1,12 +1,13 @@
-import concurrent.futures
-import configparser
-import functools
-import logging
+from gevent import monkey
+
+monkey.patch_all()
+
+import requests
 import os
-from os.path import islink
+import logging
+import concurrent.futures
 import queue
-import time
-import gevent
+import random
 
 
 import requests
@@ -21,8 +22,10 @@ class YandeRe():
 
     _q = queue.Queue()
 
-    def __init__(self, end_page, proxies={'http': '', 'https': ''}, quality='original', limit=100, start_page=1,
+    def __init__(self, end_page, proxies=None, quality='original', limit=100, start_page=1,
                  max_workers=10, max_retries=2, timeout=4, filepath='yande.re', hproxy=''):
+        if proxies is None:
+            proxies = {'http': '', 'https': ''}
         self.proxies = proxies
         self.quality = quality
         self.end_page = end_page
