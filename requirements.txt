@@ -1,3 +1,1 @@
 requests
-gevent
-requests-toolbelt
