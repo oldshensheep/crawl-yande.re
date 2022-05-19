@@ -4,7 +4,6 @@ import logging
 import os
 import queue
 import time
-
 import requests
 
 
@@ -42,7 +41,8 @@ class YandeRe():
         if hproxy is not None:
             self._API_URL = f'{hproxy}/{self._API_URL}'
         self.executor = concurrent.futures.ThreadPoolExecutor(
-            max_workers=self.max_workers + 2)
+            max_workers=self.max_workers + 2,
+            initializer=lambda: print("fucked"))
         self.download_files = self.last_download_files()
         if not os.path.exists(filepath):
             os.mkdir(filepath)
@@ -61,10 +61,7 @@ class YandeRe():
         self.logger.addHandler(ch)
 
     def create_session(self):
-        adapters = requests.adapters.HTTPAdapter(
-            pool_connections=self.max_workers,
-            pool_maxsize=self.max_workers,
-            max_retries=self.max_retries)
+        adapters = requests.adapters.HTTPAdapter(max_retries=self.max_retries)
         session = requests.Session()
         session.proxies.update(self.proxies)
         session.mount('http://', adapters)
@@ -97,12 +94,12 @@ class YandeRe():
     def get_img_urls(self, start_page=0):
         page = start_page
         while True:
-            self.logger.info(f'get_img_urls {page}')
+            self.logger.info(f'get img urls. page {page}')
             try:
                 post = self.session.get(
                     f'{self._API_URL}?limit={self.limit}&page={page}').json()
             except Exception as e:
-                self.logger.info(f'{e}\nget_img_urls page{page} failed')
+                self.logger.info(f'{e}\nget img urls. page {page} failed')
                 print('请设置代理')
                 return
             file_map = {
@@ -156,6 +153,7 @@ def main():
                       quality=config.quality,
                       hproxy=config.hproxy)
     yandere.run()
+
 
 if __name__ == '__main__':
     main()

@@ -4,8 +4,8 @@ start_page = 1
 # 下载结束页 默认 100
 end_page = 100
 
-# 同时下载的线程数 默认 8
-max_workers = 8
+# 同时下载的线程数 默认 6, 设置太大会导致下载速度过慢
+max_workers = 6
 
 # 图片保存路径 默认为 yande.re, 不存在自动创建
 filepath = "yande.re"
